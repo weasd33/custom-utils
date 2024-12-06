@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.Map;
 
 public class DateUtil {
@@ -15,27 +16,23 @@ public class DateUtil {
 	public final static String DATE_TIME_FORMAT = "3";
 	
 	// 날짜 포맷 (Date formats)
-	public final static String DATE_FORMAT_COMPACT = "yyyyMMdd";
-	public final static String DATE_FORMAT_STANDARD = "yyyy-MM-dd";
-	public final static String DATE_FORMAT_MONTH_COMPACT = "yyyyMM";
-	public final static String DATE_FORMAT_MONTH_STANDARD = "yyyy-MM";
+	public final static String DATE_FORMAT_COMPACT = "uuuuMMdd";
+	public final static String DATE_FORMAT_STANDARD = "uuuu-MM-dd";
 
 	// 시간 포맷 (Time formats)
-	public final static String TIME_FORMAT_COMPACT = "HHmmss";
+	public final static String TIME_MINUTE_COMPACT = "HH:mm";
 	public final static String TIME_FORMAT_STANDARD = "HH:mm:ss";
 	
 	// 날짜시간 포맷 (Datetime formats)
-	public final static String DATETIME_FORMAT_COMPACT = "yyyyMMddHHmmss";
-	public final static String DATETIME_FORMAT_STANDARD = "yyyy-MM-dd HH:mm:ss";
-	public final static String DATETIME_FORMAT_MILLIS_COMPACT = "yyyyMMddHHmmssSSS";
-	public final static String DATETIME_FORMAT_MILLIS_STANDARD = "yyyy-MM-dd HH:mm:ss.SSS";
+	public final static String DATETIME_FORMAT_COMPACT = "uuuuMMddHHmmss";
+	public final static String DATETIME_FORMAT_STANDARD = "uuuu-MM-dd HH:mm:ss";
+	public final static String DATETIME_FORMAT_MILLIS_COMPACT = "uuuuMMddHHmmssSSS";
+	public final static String DATETIME_FORMAT_MILLIS_STANDARD = "uuuu-MM-dd HH:mm:ss.SSS";
 	
 	private final static Map<String, String> formats = Map.ofEntries(
 			Map.entry(DATE_FORMAT_COMPACT, DATE_FORMAT)
 			, Map.entry(DATE_FORMAT_STANDARD, DATE_FORMAT)
-			, Map.entry(DATE_FORMAT_MONTH_COMPACT, DATE_FORMAT)
-			, Map.entry(DATE_FORMAT_MONTH_STANDARD, DATE_FORMAT)
-			, Map.entry(TIME_FORMAT_COMPACT, TIME_FORMAT)
+			, Map.entry(TIME_MINUTE_COMPACT, TIME_FORMAT)
 			, Map.entry(TIME_FORMAT_STANDARD, TIME_FORMAT)
 			, Map.entry(DATETIME_FORMAT_COMPACT, DATE_TIME_FORMAT)
 			, Map.entry(DATETIME_FORMAT_STANDARD, DATE_TIME_FORMAT)
@@ -59,7 +56,7 @@ public class DateUtil {
 	
 	private static boolean isValidFormat(String dateStr, String format) {
 		try {
-			DateTimeFormatter dtf = DateTimeFormatter.ofPattern(format);
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern(format).withResolverStyle(ResolverStyle.STRICT);
 			dtf.parse(dateStr);
 			
 			return true;
